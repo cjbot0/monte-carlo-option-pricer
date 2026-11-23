@@ -31,6 +31,10 @@ def black_scholes_call(S, K, r, sigma, T):
 p = PricePaths(100, 0.05, 0.2)
 bs = black_scholes_call(100, 100, 0.05, 0.2, 1)
 sizes = [10 ** 2, 10 ** 3, 10 ** 4, 10 ** 5, 10 ** 6, 10 ** 7]
+p.generate(10 ** 6, 1, 1)
+payoffs = np.exp(-p.mu * 1) * np.maximum(p.paths[:, -1] - 100, 0)
+price = payoffs.mean()
+error = payoffs.std() / np.sqrt(len(payoffs))  # standard error
 mean_errors = []
 
 for n in sizes:
@@ -39,6 +43,14 @@ for n in sizes:
         p.generate(n, 1, 1)
         errors.append(abs(p.price_call(100, 1) - bs))
     mean_errors.append(np.mean(errors))
+
+text = (f"Monte Carlo price: {price:.4f} +/- {error:.4f}\n"
+        f"Black-Scholes price: {bs:.4f}\n"
+        f"Payoff std (sigma): {payoffs.std():.2f}\n")
+print(text)
+
+with open("results.txt", "w") as f:
+    f.write(text)
 
 sizes = np.array(sizes)
 plt.plot(sizes, mean_errors, 'o-', label='simulation error')

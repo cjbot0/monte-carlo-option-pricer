@@ -1,0 +1,3 @@
+Monte Carlo price: 10.4685 +/- 0.0147
+Black-Scholes price: 10.4506
+Payoff std (sigma): 14.73
