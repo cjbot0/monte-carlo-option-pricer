@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm 
 ln = np.log
 
+#S is stock price today, K is strike price (fixed option price where can buy)
+#r is risk free interest, T is time to expiry in years. 
+
 class PricePaths:
     def __init__(self, s0, mu, sigma):
         self.s0 = s0 #starting price
@@ -52,9 +55,9 @@ print(text)
 with open("results.txt", "w") as f:
     f.write(text)
 
-sizes = np.array(sizes)
+sizes = np.array(sizes) #Prints Graph
 plt.plot(sizes, mean_errors, 'o-', label='simulation error')
-plt.plot(sizes, 14 / np.sqrt(sizes), 'r--', label='14/sqrt(n) (theory)')
+plt.plot(sizes, 14 / np.sqrt(sizes), 'r--', label='σ/sqrt(n) (theory)')
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('Number of Paths')
